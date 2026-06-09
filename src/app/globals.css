@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --g: #2A7D52;
+  --g10: #EBF5EF;
+  --g20: #C5E3D0;
+  --b: #1A5F7A;
+  --b10: #E5F0F7;
+  --dark: #191D26;
+  --text: #2C3040;
+  --muted: #707688;
+  --border: #DDE1EC;
+  --bg: #F4F6FA;
+  --white: #FFFFFF;
+  --red: #D93030;
+  --amber: #D48A10;
+  --r: 8px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--white);
+  color: var(--text);
+  line-height: 1.55;
+}
