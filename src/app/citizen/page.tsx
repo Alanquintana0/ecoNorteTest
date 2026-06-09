@@ -115,9 +115,6 @@ export default function CitizenPage() {
 
   const filteredPuntos = PUNTOS.filter(p => filterType === 'all' || p.tipo === filterType);
 
-  // PHONE CONTENT HEIGHT = 844 - 52 (header) - 64 (bottom nav) = 728
-  const CONTENT_H = 728;
-
   const navBtn: React.CSSProperties = {
     flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
     justifyContent: 'center', gap: 3, border: 'none', background: 'transparent',
@@ -132,155 +129,160 @@ export default function CitizenPage() {
   const labelStyle: React.CSSProperties = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--dark)', marginBottom: 6 };
   const fGroup: React.CSSProperties = { marginBottom: 14 };
 
+  const contentWrap: React.CSSProperties = {
+    maxWidth: 640, margin: '0 auto', width: '100%', boxSizing: 'border-box' as const,
+  };
+
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 0' }}>
-      {/* PHONE FRAME */}
-      <div style={{
-        width: 390, height: 844, background: 'var(--white)', borderRadius: 46,
-        boxShadow: '0 0 0 10px #14171F, 0 0 0 12px #24273A, 0 28px 80px rgba(0,0,0,.5)',
-        overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative',
-      }}>
-        {/* HEADER */}
-        <div style={{ height: 52, background: 'var(--white)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 16px', gap: 8, flexShrink: 0 }}>
-          {screen === 'depositar' && step < 5 && (
-            <>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--dark)' }}>{STEP_TITLES[step]}</div>
-                <div style={{ fontSize: 11, color: 'var(--muted)' }}>{STEP_SUBS[step]}</div>
-              </div>
-              <div style={{ width: 60, height: 4, borderRadius: 2, background: 'var(--border)', overflow: 'hidden', flexShrink: 0 }}>
-                <div style={{ height: '100%', background: 'var(--g)', borderRadius: 2, width: STEP_WIDTHS[step], transition: 'width .3s' }} />
-              </div>
-            </>
-          )}
-          {screen === 'mapa' && (
-            <>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>EcoNorte</div>
-                <div style={{ fontSize: 11, color: 'var(--muted)' }}>Puntos de acopio</div>
-              </div>
-              <div style={{ display: 'flex', gap: 6 }}>
-                {[{ id: 'all', l: 'Todos' }, { id: 'quickbox', l: 'Quick' }, { id: 'large', l: 'Grande' }].map(f => (
-                  <button key={f.id} onClick={() => setFilterType(f.id as typeof filterType)} style={{
-                    padding: '4px 8px', borderRadius: 12, fontSize: 10, fontWeight: 700, cursor: 'pointer',
-                    border: 'none', fontFamily: 'inherit',
-                    background: filterType === f.id ? 'var(--g)' : 'var(--bg)',
-                    color: filterType === f.id ? '#fff' : 'var(--muted)',
-                  }}>{f.l}</button>
-                ))}
-              </div>
-            </>
-          )}
-          {screen === 'recoleccion' && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>Recolección Domiciliaria</div>}
-          {screen === 'ecopuntos' && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>EcoPuntos</div>}
-          {screen === 'historial' && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>Historial</div>}
-          {screen === 'depositar' && step === 5 && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>¡Depósito Registrado!</div>}
+    <div style={{ height: '100dvh', background: 'var(--bg)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+      {/* HEADER */}
+      <div style={{ background: 'var(--white)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 16px', gap: 8, flexShrink: 0, height: 56 }}>
+        {screen === 'depositar' && step < 5 && (
+          <>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--dark)' }}>{STEP_TITLES[step]}</div>
+              <div style={{ fontSize: 11, color: 'var(--muted)' }}>{STEP_SUBS[step]}</div>
+            </div>
+            <div style={{ width: 72, height: 4, borderRadius: 2, background: 'var(--border)', overflow: 'hidden', flexShrink: 0 }}>
+              <div style={{ height: '100%', background: 'var(--g)', borderRadius: 2, width: STEP_WIDTHS[step], transition: 'width .3s' }} />
+            </div>
+          </>
+        )}
+        {screen === 'mapa' && (
+          <>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>EcoNorte</div>
+              <div style={{ fontSize: 11, color: 'var(--muted)' }}>Puntos de acopio</div>
+            </div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              {[{ id: 'all', l: 'Todos' }, { id: 'quickbox', l: 'Quick' }, { id: 'large', l: 'Grande' }].map(f => (
+                <button key={f.id} onClick={() => setFilterType(f.id as typeof filterType)} style={{
+                  padding: '5px 10px', borderRadius: 12, fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                  border: 'none', fontFamily: 'inherit',
+                  background: filterType === f.id ? 'var(--g)' : 'var(--bg)',
+                  color: filterType === f.id ? '#fff' : 'var(--muted)',
+                }}>{f.l}</button>
+              ))}
+            </div>
+          </>
+        )}
+        {screen === 'recoleccion' && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>Recolección Domiciliaria</div>}
+        {screen === 'ecopuntos' && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>EcoPuntos</div>}
+        {screen === 'historial' && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>Historial</div>}
+        {screen === 'depositar' && step === 5 && <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--dark)' }}>¡Depósito Registrado!</div>}
+      </div>
+
+      {/* CONTENT AREA */}
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+
+        {/* MAPA SCREEN */}
+        <div style={{ position: 'absolute', inset: 0, display: screen === 'mapa' ? 'block' : 'none' }}>
+          <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
         </div>
 
-        {/* CONTENT AREA */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        {/* DEPOSITAR SCREEN */}
+        <div style={{ position: 'absolute', inset: 0, display: screen === 'depositar' ? 'flex' : 'none', flexDirection: 'column' }}>
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            <div style={contentWrap}>
 
-          {/* MAPA SCREEN */}
-          <div style={{ position: 'absolute', inset: 0, display: screen === 'mapa' ? 'block' : 'none' }}>
-            <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
-          </div>
-
-          {/* DEPOSITAR SCREEN */}
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'depositar' ? 'flex' : 'none', flexDirection: 'column', padding: '0 0 80px' }}>
-            {/* Step 1: Select point */}
-            {step === 1 && (
-              <div style={{ padding: '16px' }}>
-                <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 12 }}>{filteredPuntos.length} puntos disponibles</div>
-                {PUNTOS.map(p => (
-                  <button key={p.id} onClick={() => setSelPoint(p.id)} style={{
-                    width: '100%', display: 'flex', alignItems: 'center', gap: 12,
-                    padding: '12px', borderRadius: 10, marginBottom: 8,
-                    border: `1.5px solid ${selPoint === p.id ? 'var(--g)' : 'var(--border)'}`,
-                    background: selPoint === p.id ? 'var(--g10)' : 'var(--white)',
-                    cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
-                  }}>
-                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: capColor(p.c), display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 10, fontWeight: 700, flexShrink: 0 }}>{p.c}%</div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--dark)' }}>{p.n}</div>
-                      <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.d}</div>
-                    </div>
-                    <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: 10, fontWeight: 700, background: p.c < 50 ? 'var(--g10)' : p.c < 80 ? '#FFF3DC' : '#FEE8E8', color: capColor(p.c), flexShrink: 0 }}>{capLabel(p.c)}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Step 2: Select devices */}
-            {step === 2 && (
-              <div style={{ padding: '16px' }}>
-                <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 12 }}>Selecciona los artículos que traes</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
-                  {DEVS.map(d => (
-                    <button key={d.id} onClick={() => toggleDev(d.id)} style={{
-                      padding: '10px 6px', borderRadius: 8, fontSize: 12, fontWeight: 600,
-                      cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center',
-                      border: `1.5px solid ${selDevs.includes(d.id) ? 'var(--g)' : 'var(--border)'}`,
-                      background: selDevs.includes(d.id) ? 'var(--g10)' : 'var(--white)',
-                      color: selDevs.includes(d.id) ? 'var(--g)' : 'var(--text)',
-                    }}>{d.l}</button>
+              {/* Step 1: Select point */}
+              {step === 1 && (
+                <div style={{ padding: '16px' }}>
+                  <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 12 }}>{filteredPuntos.length} puntos disponibles</div>
+                  {PUNTOS.map(p => (
+                    <button key={p.id} onClick={() => setSelPoint(p.id)} style={{
+                      width: '100%', display: 'flex', alignItems: 'center', gap: 12,
+                      padding: '12px', borderRadius: 10, marginBottom: 8,
+                      border: `1.5px solid ${selPoint === p.id ? 'var(--g)' : 'var(--border)'}`,
+                      background: selPoint === p.id ? 'var(--g10)' : 'var(--white)',
+                      cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
+                    }}>
+                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: capColor(p.c), display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 10, fontWeight: 700, flexShrink: 0 }}>{p.c}%</div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--dark)' }}>{p.n}</div>
+                        <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.d}</div>
+                      </div>
+                      <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: 10, fontWeight: 700, background: p.c < 50 ? 'var(--g10)' : p.c < 80 ? '#FFF3DC' : '#FEE8E8', color: capColor(p.c), flexShrink: 0 }}>{capLabel(p.c)}</span>
+                    </button>
                   ))}
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 3: Photo */}
-            {step === 3 && (
-              <div style={{ padding: '16px' }}>
-                <div style={{ border: '2px dashed var(--border)', borderRadius: 12, padding: '48px 20px', textAlign: 'center', marginBottom: 16, cursor: 'pointer' }} onClick={() => alert('Cámara no disponible en demo')}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--g10)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--g)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" /></svg>
+              {/* Step 2: Select devices */}
+              {step === 2 && (
+                <div style={{ padding: '16px' }}>
+                  <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 12 }}>Selecciona los artículos que traes</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 8 }}>
+                    {DEVS.map(d => (
+                      <button key={d.id} onClick={() => toggleDev(d.id)} style={{
+                        padding: '10px 6px', borderRadius: 8, fontSize: 12, fontWeight: 600,
+                        cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center',
+                        border: `1.5px solid ${selDevs.includes(d.id) ? 'var(--g)' : 'var(--border)'}`,
+                        background: selDevs.includes(d.id) ? 'var(--g10)' : 'var(--white)',
+                        color: selDevs.includes(d.id) ? 'var(--g)' : 'var(--text)',
+                      }}>{d.l}</button>
+                    ))}
                   </div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--dark)', marginBottom: 4 }}>Tomar foto</div>
-                  <div style={{ fontSize: 12, color: 'var(--muted)' }}>JPG o PNG · Máx. 5 MB</div>
                 </div>
-                <div style={{ padding: '12px 14px', background: 'var(--g10)', borderRadius: 8, border: '1px solid var(--g20)', fontSize: 12, color: 'var(--g)' }}>
-                  La foto valida tu depósito y suma puntos automáticamente.
-                </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 4: Name */}
-            {step === 4 && (
-              <div style={{ padding: '16px' }}>
-                <div style={fGroup}>
-                  <label style={labelStyle}>Nombre (opcional)</label>
-                  <input style={inputStyle} type="text" placeholder="Tu nombre completo" />
+              {/* Step 3: Photo */}
+              {step === 3 && (
+                <div style={{ padding: '16px' }}>
+                  <div style={{ border: '2px dashed var(--border)', borderRadius: 12, padding: '48px 20px', textAlign: 'center', marginBottom: 16, cursor: 'pointer' }} onClick={() => alert('Cámara no disponible en demo')}>
+                    <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--g10)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--g)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" /></svg>
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--dark)', marginBottom: 4 }}>Tomar foto</div>
+                    <div style={{ fontSize: 12, color: 'var(--muted)' }}>JPG o PNG · Máx. 5 MB</div>
+                  </div>
+                  <div style={{ padding: '12px 14px', background: 'var(--g10)', borderRadius: 8, border: '1px solid var(--g20)', fontSize: 12, color: 'var(--g)' }}>
+                    La foto valida tu depósito y suma puntos automáticamente.
+                  </div>
                 </div>
-                <div style={{ padding: '12px 14px', background: 'var(--bg)', borderRadius: 8, fontSize: 12, color: 'var(--muted)' }}>
-                  Necesario para recibir el comprobante digital y sumar puntos a tu cuenta.
-                </div>
-              </div>
-            )}
+              )}
 
-            {/* Step 5: Success */}
-            {step === 5 && (
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px 16px', textAlign: 'center' }}>
-                <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'var(--g10)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--g)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              {/* Step 4: Name */}
+              {step === 4 && (
+                <div style={{ padding: '16px' }}>
+                  <div style={fGroup}>
+                    <label style={labelStyle}>Nombre (opcional)</label>
+                    <input style={inputStyle} type="text" placeholder="Tu nombre completo" />
+                  </div>
+                  <div style={{ padding: '12px 14px', background: 'var(--bg)', borderRadius: 8, fontSize: 12, color: 'var(--muted)' }}>
+                    Necesario para recibir el comprobante digital y sumar puntos a tu cuenta.
+                  </div>
                 </div>
-                <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--dark)', marginBottom: 8 }}>Depósito Registrado</h2>
-                <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 24, lineHeight: 1.6 }}>
-                  Tu depósito ha sido registrado exitosamente.
-                </div>
-                <div style={{ padding: '14px 20px', background: 'var(--g10)', borderRadius: 12, border: '1px solid var(--g20)', marginBottom: 20, width: '100%' }}>
-                  <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>EcoPuntos ganados</div>
-                  <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--g)' }}>+75 pts</div>
-                  <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>Folio: ECO-2026-{String(Math.floor(Math.random() * 90000) + 10000)}</div>
-                </div>
-                <button onClick={resetDeposit} style={{ width: '100%', padding: '12px', borderRadius: 10, background: 'var(--g)', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
-                  Nuevo Depósito
-                </button>
-              </div>
-            )}
+              )}
 
-            {/* Footer (steps 1-4) */}
-            {step < 5 && (
-              <div style={{ position: 'fixed', bottom: 64, left: 0, right: 0, display: 'flex', gap: 10, padding: '12px 16px', background: 'var(--white)', borderTop: '1px solid var(--border)', maxWidth: 390, margin: '0 auto' }}>
+              {/* Step 5: Success */}
+              {step === 5 && (
+                <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px 16px', textAlign: 'center' }}>
+                  <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'var(--g10)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--g)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  </div>
+                  <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--dark)', marginBottom: 8 }}>Depósito Registrado</h2>
+                  <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 24, lineHeight: 1.6 }}>
+                    Tu depósito ha sido registrado exitosamente.
+                  </div>
+                  <div style={{ padding: '14px 20px', background: 'var(--g10)', borderRadius: 12, border: '1px solid var(--g20)', marginBottom: 20, width: '100%', maxWidth: 320 }}>
+                    <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>EcoPuntos ganados</div>
+                    <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--g)' }}>+75 pts</div>
+                    <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>Folio: ECO-2026-{String(Math.floor(Math.random() * 90000) + 10000)}</div>
+                  </div>
+                  <button onClick={resetDeposit} style={{ width: '100%', maxWidth: 320, padding: '12px', borderRadius: 10, background: 'var(--g)', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+                    Nuevo Depósito
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Step footer — part of flex layout, not fixed */}
+          {step < 5 && (
+            <div style={{ flexShrink: 0, background: 'var(--white)', borderTop: '1px solid var(--border)', padding: '12px 16px' }}>
+              <div style={{ ...contentWrap, display: 'flex', gap: 10 }}>
                 {step > 1 && (
                   <button onClick={() => setStep(s => s - 1)} style={{ flex: 1, padding: '12px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'var(--white)', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', color: 'var(--muted)' }}>
                     Atrás
@@ -290,11 +292,13 @@ export default function CitizenPage() {
                   {step === 4 ? 'Registrar Depósito' : 'Continuar'}
                 </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+        </div>
 
-          {/* RECOLECCIÓN SCREEN */}
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'recoleccion' ? 'block' : 'none', padding: '16px' }}>
+        {/* RECOLECCIÓN SCREEN */}
+        <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'recoleccion' ? 'block' : 'none' }}>
+          <div style={{ ...contentWrap, padding: '16px' }}>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 16, lineHeight: 1.6 }}>
               Programa la recolección de tus residuos directamente en tu domicilio.
             </div>
@@ -325,13 +329,15 @@ export default function CitizenPage() {
               </div>
             </div>
             <div style={fGroup}><label style={labelStyle}>Fecha deseada</label><input style={inputStyle} type="date" defaultValue="2026-06-15" /></div>
-            <button onClick={() => alert('Solicitud enviada.\n\nFolio: RECO-2026-00892\nNos pondremos en contacto para confirmar la fecha.')} style={{ width: '100%', padding: '13px', borderRadius: 10, background: 'var(--b)', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginBottom: 80 }}>
+            <button onClick={() => alert('Solicitud enviada.\n\nFolio: RECO-2026-00892\nNos pondremos en contacto para confirmar la fecha.')} style={{ width: '100%', padding: '13px', borderRadius: 10, background: 'var(--b)', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginBottom: 16 }}>
               Solicitar Recolección
             </button>
           </div>
+        </div>
 
-          {/* ECOPUNTOS SCREEN */}
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'ecopuntos' ? 'block' : 'none', padding: '16px' }}>
+        {/* ECOPUNTOS SCREEN */}
+        <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'ecopuntos' ? 'block' : 'none' }}>
+          <div style={{ ...contentWrap, padding: '16px' }}>
             {/* Hero */}
             <div style={{ background: 'linear-gradient(135deg, var(--g) 0%, #1A5038 100%)', borderRadius: 16, padding: '24px 20px', marginBottom: 16, textAlign: 'center', color: '#fff' }}>
               <div style={{ fontSize: 42, fontWeight: 700, lineHeight: 1 }}>1,250</div>
@@ -371,7 +377,7 @@ export default function CitizenPage() {
             </div>
 
             {/* Rewards */}
-            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', marginBottom: 80 }}>
+            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', marginBottom: 16 }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--dark)', marginBottom: 12 }}>Canjear Puntos</div>
               {[
                 { n: 'Descuento predial', pts: 500 },
@@ -391,9 +397,11 @@ export default function CitizenPage() {
               ))}
             </div>
           </div>
+        </div>
 
-          {/* HISTORIAL SCREEN */}
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'historial' ? 'block' : 'none', padding: '16px' }}>
+        {/* HISTORIAL SCREEN */}
+        <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', display: screen === 'historial' ? 'block' : 'none' }}>
+          <div style={{ ...contentWrap, padding: '16px' }}>
             {[
               {
                 mes: 'Junio 2026', items: [
@@ -431,25 +439,24 @@ export default function CitizenPage() {
                 ))}
               </div>
             ))}
-            <div style={{ height: 80 }} />
           </div>
         </div>
+      </div>
 
-        {/* BOTTOM NAV */}
-        <div style={{ height: 64, background: 'var(--white)', borderTop: '1px solid var(--border)', display: 'flex', flexShrink: 0 }}>
-          {([
-            { id: 'mapa', label: 'Mapa', icon: <MapIcon /> },
-            { id: 'depositar', label: 'Depositar', icon: <DepIcon /> },
-            { id: 'recoleccion', label: 'Recolección', icon: <TruckIcon /> },
-            { id: 'ecopuntos', label: 'EcoPuntos', icon: <StarIcon /> },
-            { id: 'historial', label: 'Historial', icon: <ClockIcon /> },
-          ] as const).map(tab => (
-            <button key={tab.id} onClick={() => setScreen(tab.id as Screen)} style={{ ...navBtn, color: screen === tab.id ? 'var(--g)' : 'var(--muted)' }}>
-              <div style={{ color: screen === tab.id ? 'var(--g)' : 'var(--muted)' }}>{tab.icon}</div>
-              <span style={{ fontSize: 9, fontWeight: screen === tab.id ? 700 : 400 }}>{tab.label}</span>
-            </button>
-          ))}
-        </div>
+      {/* BOTTOM NAV */}
+      <div style={{ background: 'var(--white)', borderTop: '1px solid var(--border)', display: 'flex', flexShrink: 0, height: 60 }}>
+        {([
+          { id: 'mapa', label: 'Mapa', icon: <MapIcon /> },
+          { id: 'depositar', label: 'Depositar', icon: <DepIcon /> },
+          { id: 'recoleccion', label: 'Recolección', icon: <TruckIcon /> },
+          { id: 'ecopuntos', label: 'EcoPuntos', icon: <StarIcon /> },
+          { id: 'historial', label: 'Historial', icon: <ClockIcon /> },
+        ] as const).map(tab => (
+          <button key={tab.id} onClick={() => setScreen(tab.id as Screen)} style={{ ...navBtn, color: screen === tab.id ? 'var(--g)' : 'var(--muted)' }}>
+            <div style={{ color: screen === tab.id ? 'var(--g)' : 'var(--muted)' }}>{tab.icon}</div>
+            <span style={{ fontSize: 10, fontWeight: screen === tab.id ? 700 : 400 }}>{tab.label}</span>
+          </button>
+        ))}
       </div>
     </div>
   );
